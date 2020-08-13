@@ -95,8 +95,8 @@ var json_once=(obj,replacer,indent,limit)=>{
 var json_once_v2=(e,v,lim)=>json_once(e,v,2,lim);
 var inspect=json_once_v2;
 
-var escapeHtml=(s)=>{
-  if("string"!==(typeof text)){return s;}
+var escapeHtml=s=>{
+  if("string"!==(typeof s)){return s;}
   return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
 }
 var maps2table_impl=(table)=>{
