@@ -24,7 +24,7 @@ resp_off();
     }
     return out;
   };
-  var wms_filter=(e)=>!'WMB,WMV,LTC,VND'.split(',').includes(e);
+  var wms_filter=(e)=>!'WMU,WMH,WMB,WMV,LTC,VND'.split(',').includes(e);
   var dir_filter=(e)=>{var t=dir2wms_orig[e];return !t.map(e=>wms_filter(e)?"":"1").length;}
   var gen_paths=(from,to,levels)=>{
     var clone=w=>w.slice();
@@ -89,8 +89,7 @@ var check_done=()=>{
     if('any' in qp){
       WM='100';
       mapkeys(mid2info)
-        .filter(e=>!'WMB'.split(',')
-        .includes(e))
+        .filter(e=>wms_filter(e))
         .map(mid=>paths=paths.concat(gen_paths(mid,mid,4).map(e=>e.split('->'))));
     }else{
       var from='from' in qp?qp.from:'WMZ';
