@@ -13,12 +13,40 @@ var obj_str=POST.data;//return "ok";
 if('show_code' in qp)return txt(POST.code);
 if('main' in qp)if(!('data' in qp))return html(mk_html());
 if(!('data' in qp)){
-  var arr="menu,show_code,main".split(",");
+  var arr="menu,show_code,main,timediff".split(",");
   var cfn="./"+fn.slice("./crude/".length);
   return html(links2table(
     arr.map(e=>cfn+'?&'+e))
   );
 }
+//
+var timediff_algo=()=>{
+  var s="\n"+POST.data.split("\r").join("");
+  var arr=s.split("\n---\n");
+  var to_timestamp=s=>{
+    var q=s=>s.split("-");
+    var a=s.split(" ");
+    if(a.length!=2)return false;
+    if(a[0].length!="15-11-44".length)return false;
+    if(a[1].length!="2020-09-18".length)return false;
+    var a0=q(a[0]);var a1=q(a[1]);
+    if(a0.length!=3)return false;
+    if(a1.length!=3)return false;
+    return [a0,a1,new Date(a1[0],a1[1],a1[2],a0[0],a0[1],a0[2])];
+  };
+  var out=[];
+  for(var i=0;i<arr.length;i++){
+    var e=arr[i];
+    let a=e.split("\n");
+    let t=to_timestamp(a[0]);
+    if(!t)continue;
+    out.push(t);
+  }
+  var timediff=(out[1][2]-out[0][2])/1e3;
+  var td=timediff+"   // "+timediff/60+" minuts";
+  return inspect({td,out});
+}
+if('timediff' in qp)return timediff_algo();
 //
 var parr="\n\r`+-*/\\(){}[]@^%$=,.:;'|&#!?<>\"1234567890_".split("");
 var f=str=>{
