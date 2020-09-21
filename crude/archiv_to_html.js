@@ -8,7 +8,7 @@ var mk_html=s=>`
   <p><input type="checkbox" name="timediff" checked="false">timediff</input></p>
   <p><input type="checkbox" name="no_hr" checked="false">no_hr</input></p>
   <p><input type="checkbox" name="no_colors" checked="false">no_colors</input></p>
-  <p><input type="checkbox" name="show_stats">no_colors</input></p>
+  <p><input type="checkbox" name="show_stats">show_stats</input></p>
   <p><input type="submit" value="send"></p>
 </form>
 </center></body></html>
