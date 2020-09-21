@@ -93,11 +93,11 @@ for(var i=0;i<s.length;i++){
 }
 end();
 var update_timestamps=arr=>{
-  var t=arr.map(e=>to_timestamp(e));
+  var t=arr.map(e=>to_timestamp(e[0]));
   for(var i=1;i<t.length;i++){
-    var bef=t[i-1];
+    var bef=t[i-1];if(bef.err)continue;
     var cur=t[i-0];
-    arr[i][0]+=" // "+timediff(cur,bef);
+    arr[i][0]+=" // "+timediff(cur.t,bef.t);//+" // "+json(cur)+" - "+json(bef);
   }
   return arr.map(e=>e.join("\n"));
 }
