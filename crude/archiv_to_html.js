@@ -1,5 +1,6 @@
 var mk_html=s=>`
-<html><style type="text/css">textarea{width:99%;font-family:consolas;}</style>
+<!DOCTYPE HTML>
+<html><meta charset="utf-8"><head><style type="text/css">textarea{width:99%;font-family:consolas;}</style></head>
 <body><center>
 <form id="postform" method="post">
   <p>content of archive.txt:</p>
