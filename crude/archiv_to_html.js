@@ -6,6 +6,9 @@ var mk_html=s=>`
   <p>content of archive.txt:</p>
   <textarea spellcheck=false rows="20" name="data" id="data" onkeypress="if(event.keyCode==10||(event.ctrlKey&&event.keyCode==13))document.getElementById('postform').submit();"></textarea>
   <p><input type="checkbox" name="timediff" checked="false">timediff</input></p>
+  <p><input type="checkbox" name="no_hr" checked="false">no_hr</input></p>
+  <p><input type="checkbox" name="no_colors" checked="false">no_colors</input></p>
+  <p><input type="checkbox" name="show_stats">no_colors</input></p>
   <p><input type="submit" value="send"></p>
 </form>
 </center></body></html>
@@ -60,6 +63,7 @@ var f=str=>{
 var m={};
 f(POST.data).map(e=>inc(m,escapeHtml(e)));
 m=mapsort(m);
+if('show_stats' in qp)return html_utf8("<pre>"+escapeHtml(inspect(m)));
 var bg=(r,g,b,str)=>'<span style="color:rgb('+r+','+g+','+b+');">'+str+'</span>';
 var w=[];var out="";
 var inv=v=>255-v;
@@ -86,12 +90,16 @@ var to_rgb=n=>{
 }
 var end=()=>{if(!w.length)return;var q=w.join("");w.length=0;var v=to_rgb(m[q]);out+=bg(v.r,v.g,v.b,q);};
 var s=POST.data.split("\r").join("");
-for(var i=0;i<s.length;i++){
-  var c=s[i];
-  if(parr.includes(c)||c==" "){end();out+=escapeHtml(c);continue;}
-  w.push(escapeHtml(c));
+if(!('no_colors' in qp)){
+  for(var i=0;i<s.length;i++){
+    var c=s[i];
+    if(parr.includes(c)||c==" "){end();out+=escapeHtml(c);continue;}
+    w.push(escapeHtml(c));
+  }
+  end();
+}else{
+  out=s;
 }
-end();
 var update_timestamps=arr=>{
   var t=arr.map(e=>to_timestamp(e[0]));
   for(var i=1;i<t.length;i++){
@@ -102,7 +110,5 @@ var update_timestamps=arr=>{
   return arr.map(e=>e.join("\n"));
 }
 var arr=out.split("\n---\n").map(msg=>msg.split("\n"));
-var pre=update_timestamps(arr).join("<hr>");
+var pre=update_timestamps(arr).join('no_hr' in qp?"\n---\n":"<hr>");
 return html_utf8('<body style="background-color:black; color:white;"><pre>'+pre+'</pre></body>');
-//return html_utf8("<pre>"+inspect(m));
-//return html_utf8("<pre>"+f(POST.data).map(e=>escapeHtml(e)).join("\n")+"");
