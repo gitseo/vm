@@ -62,7 +62,7 @@ m=mapsort(m);
 var bg=(r,g,b,str)=>'<span style="color:rgb('+r+','+g+','+b+');">'+str+'</span>';
 var w=[];var out="";
 var inv=v=>255-v;
-var rgb=(r,g,b)=>({r|0,g|0,b|0});
+var rgb=(r,g,b)=>({r:r|0,g:g|0,b:b|0});
 var white=rgb(255,255,255);
 var yellow=rgb(255,255,0);
 var green=rgb(0,255,0);
