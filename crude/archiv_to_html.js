@@ -93,11 +93,12 @@ for(var i=0;i<s.length;i++){
 end();
 var update_timestamps=arr=>{
   var t=arr.map(e=>to_timestamp(e));
-  for(var i=1;i<arr.length;i++){
+  for(var i=1;i<t.length;i++){
     var bef=t[i-1];
     var cur=t[i-0];
     arr[i][0]+=" // "+timediff(cur,bef);
   }
+  return arr.map(e=>e.join("\n"));
 }
 var arr=out.split("\n---\n").map(msg=>msg.split("\n"));
 var pre=update_timestamps(arr).join("<hr>");
