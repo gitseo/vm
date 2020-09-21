@@ -5,7 +5,7 @@ var mk_html=s=>`
 <form id="postform" method="post">
   <p>content of archive.txt:</p>
   <textarea spellcheck=false rows="20" name="data" id="data" onkeypress="if(event.keyCode==10||(event.ctrlKey&&event.keyCode==13))document.getElementById('postform').submit();"></textarea>
-  <p><input type="checkbox" id="timediff" value="timediff"></p>
+  <p><input type="checkbox" name="timediff" checked="false"></input></p>
   <p><input type="submit" value="send"></p>
 </form>
 </center></body></html>
@@ -28,7 +28,7 @@ var to_timestamp=s=>{
   if(a[0].length!="15-11-44".length||a[0].length!="23:59:99.999".length)return false;
   if(a[1].length!="2020-09-18".length)return false;
   var a0=q(a[0]);var a1=q(a[1]);
-  if(a0.length!=3)return false;
+  if(!([3,4].includes(a0.length)))return false;
   if(a1.length!=3)return false;
   var t=new Date(a1[0],a1[1],a1[2],a0[0],a0[1],a0[2],a0[3]);
   return {a0,a1,t};
