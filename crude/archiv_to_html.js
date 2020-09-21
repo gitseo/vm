@@ -5,6 +5,7 @@ var mk_html=s=>`
 <form id="postform" method="post">
   <p>content of archive.txt:</p>
   <textarea spellcheck=false rows="20" name="data" id="data" onkeypress="if(event.keyCode==10||(event.ctrlKey&&event.keyCode==13))document.getElementById('postform').submit();"></textarea>
+  <p><input type="checkbox" id="timediff" value="timediff"></p>
   <p><input type="submit" value="send"></p>
 </form>
 </center></body></html>
@@ -20,20 +21,22 @@ if(!('data' in qp)){
   );
 }
 //
-var timediff_algo=()=>{
+var to_timestamp=s=>{
+  var q=s=>s.split(/[.:-]/);
+  var a=s.split(" ");
+  if(a.length!=2)return false;
+  if(a[0].length!="15-11-44".length||a[0].length!="23:59:99.999".length)return false;
+  if(a[1].length!="2020-09-18".length)return false;
+  var a0=q(a[0]);var a1=q(a[1]);
+  if(a0.length!=3)return false;
+  if(a1.length!=3)return false;
+  var t=new Date(a1[0],a1[1],a1[2],a0[0],a0[1],a0[2],a0[3]);
+  return {a0,a1,t};
+};
+var timediff=(a,b)=>{var td=(a-b)/1e3;return td+"   // "+(v/60).toFixed(5)+" minutes";
+var timediff_main=()=>{
   var s="\n"+POST.data.split("\r").join("");
   var arr=s.split("\n---\n");
-  var to_timestamp=s=>{
-    var q=s=>s.split(/[.:-]/);
-    var a=s.split(" ");
-    if(a.length!=2)return false;
-    if(a[0].length!="15-11-44".length||a[0].length!="23:59:99.999".length)return false;
-    if(a[1].length!="2020-09-18".length)return false;
-    var a0=q(a[0]);var a1=q(a[1]);
-    if(a0.length!=3)return false;
-    if(a1.length!=3)return false;
-    return [a0,a1,new Date(a1[0],a1[1],a1[2],a0[0],a0[1],a0[2],a0[3])];
-  };
   var out=[];
   for(var i=0;i<arr.length;i++){
     var e=arr[i];
@@ -42,11 +45,10 @@ var timediff_algo=()=>{
     if(!t)continue;
     out.push(t);
   }
-  var timediff=(out[1][2]-out[0][2])/1e3;
-  var td=timediff+"   // "+(timediff/60).toFixed(5)+" minuts";
+  var td=timediff(out[1].t-out[0].t);
   return inspect({td,out});
 }
-if('timediff' in qp)return timediff_algo();
+if('timediff' in qp)return timediff_main();
 //
 var parr="\n\r`+-*/\\(){}[]@^%$=,.:;'|&#!?<>\"1234567890_".split("");
 var f=str=>{
