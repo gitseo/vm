@@ -65,7 +65,7 @@ f(POST.data).map(e=>inc(m,escapeHtml(e)));
 m=mapsort(m);
 if('show_stats' in qp)return html_utf8("<pre>"+escapeHtml(inspect(m)));
 var bg=(r,g,b,str)=>'<span style="color:rgb('+r+','+g+','+b+');">'+str+'</span>';
-var w=[];var out="";
+var w=[];
 var inv=v=>255-v;
 var rgb=(r,g,b)=>({r:r|0,g:g|0,b:b|0});
 var white=rgb(255,255,255);
@@ -88,6 +88,7 @@ var to_rgb=n=>{
   if(n>11&&n<=100)return mix(white,green,11,100,n);
   return green;//mix(yellow,white,0,255,n);
 }
+var out="\n";
 var end=()=>{if(!w.length)return;var q=w.join("");w.length=0;var v=to_rgb(m[q]);out+=bg(v.r,v.g,v.b,q);};
 var s=POST.data.split("\r").join("");
 if(!('no_colors' in qp)){
