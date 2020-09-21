@@ -33,7 +33,7 @@ var to_timestamp=s=>{
   var t=new Date(a1[0],a1[1],a1[2],a0[0],a0[1],a0[2],a0[3]);
   return {a0,a1,t};
 };
-var timediff=(a,b)=>{var td=(a-b)/1e3;return td+"   // "+(v/60).toFixed(5)+" minutes";
+var timediff=(a,b)=>{var td=(a-b)/1e3;return td+"   // "+(v/60).toFixed(5)+" minutes";}
 var timediff_main=()=>{
   var s="\n"+POST.data.split("\r").join("");
   var arr=s.split("\n---\n");
