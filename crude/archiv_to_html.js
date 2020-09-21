@@ -24,15 +24,15 @@ var timediff_algo=()=>{
   var s="\n"+POST.data.split("\r").join("");
   var arr=s.split("\n---\n");
   var to_timestamp=s=>{
-    var q=s=>s.split("-");
+    var q=s=>s.split(/[.:-]/);
     var a=s.split(" ");
     if(a.length!=2)return false;
-    if(a[0].length!="15-11-44".length)return false;
+    if(a[0].length!="15-11-44".length||a[0].length!="23:59:99.999".length)return false;
     if(a[1].length!="2020-09-18".length)return false;
     var a0=q(a[0]);var a1=q(a[1]);
     if(a0.length!=3)return false;
     if(a1.length!=3)return false;
-    return [a0,a1,new Date(a1[0],a1[1],a1[2],a0[0],a0[1],a0[2])];
+    return [a0,a1,new Date(a1[0],a1[1],a1[2],a0[0],a0[1],a0[2],a0[3])];
   };
   var out=[];
   for(var i=0;i<arr.length;i++){
@@ -43,7 +43,7 @@ var timediff_algo=()=>{
     out.push(t);
   }
   var timediff=(out[1][2]-out[0][2])/1e3;
-  var td=timediff+"   // "+timediff/60+" minuts";
+  var td=timediff+"   // "+(timediff/60).toFixed(5)+" minuts";
   return inspect({td,out});
 }
 if('timediff' in qp)return timediff_algo();
