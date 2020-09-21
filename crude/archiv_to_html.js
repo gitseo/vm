@@ -24,16 +24,16 @@ if(!('data' in qp)){
 var to_timestamp=s=>{
   var q=s=>s.split(/[.:-]/);
   var a=s.split(" ");
-  if(a.length!=2)return false;
-  if(a[0].length!="15-11-44".length||a[0].length!="23:59:99.999".length)return false;
-  if(a[1].length!="2020-09-18".length)return false;
+  if(a.length!=2)return {err:1,type:'fail'};
+  if(!(["23:59:99.999","15-11-44"].map(e=>e.length).includes(a[0].length)))return {err:1,type:'t'};
+  if(a[1].length!="2020-09-18".length)return {err:1,type:'d'};
   var a0=q(a[0]);var a1=q(a[1]);
-  if(!([3,4].includes(a0.length)))return false;
-  if(a1.length!=3)return false;
+  if(!([3,4].includes(a0.length)))return {err:1,type:'tl'};
+  if(a1.length!=3)return {err:1,type:'dl'};
   var t=new Date(a1[0],a1[1],a1[2],a0[0],a0[1],a0[2],a0[3]);
-  return {a0,a1,t};
+  return {a0,a1,t,err:0,type:'ok'};
 };
-var timediff=(a,b)=>{var td=(a-b)/1e3;return td+"   // "+(v/60).toFixed(5)+" minutes";}
+var timediff=(a,b)=>{var td=(a-b)/1e3;return td+" sec. // "+(td/60).toFixed(5)+" minutes";}
 var timediff_main=()=>{
   var s="\n"+POST.data.split("\r").join("");
   var arr=s.split("\n---\n");
@@ -42,10 +42,11 @@ var timediff_main=()=>{
     var e=arr[i];
     let a=e.split("\n");
     let t=to_timestamp(a[0]);
-    if(!t)continue;
+    if(t.err)continue;
     out.push(t);
   }
-  var td=timediff(out[1].t-out[0].t);
+  //return inspect({s,arr,pd:POST.data,out});
+  var td=timediff(out[1].t,out[0].t);
   return inspect({td,out});
 }
 if('timediff' in qp)return timediff_main();
