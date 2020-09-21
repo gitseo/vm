@@ -26,7 +26,7 @@ var to_timestamp=s=>{
   var q=s=>s.split(/[.:-]/);
   var a=s.split(" ");
   if(a.length<2)return {err:1,type:'fail'};
-  if(!(["23:59:99.999","15-11-44"].map(e=>e.length).includes(a[0].length)))return {err:1,type:'t'};
+  if(!(["23:59:59.999","15-11-44"].map(e=>e.length).includes(a[0].length)))return {err:1,type:'t'};
   if(a[1].length!="2020-09-18".length)return {err:1,type:'d'};
   var a0=q(a[0]);var a1=q(a[1]);
   if(!([3,4].includes(a0.length)))return {err:1,type:'tl'};
