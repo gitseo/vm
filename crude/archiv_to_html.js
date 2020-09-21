@@ -22,6 +22,7 @@ if(!('data' in qp)){
 }
 //
 var to_timestamp=s=>{
+  if(!s.length)return {err:1,type:'empty'};
   var q=s=>s.split(/[.:-]/);
   var a=s.split(" ");
   if(a.length<2)return {err:1,type:'fail'};
@@ -30,7 +31,7 @@ var to_timestamp=s=>{
   var a0=q(a[0]);var a1=q(a[1]);
   if(!([3,4].includes(a0.length)))return {err:1,type:'tl'};
   if(a1.length!=3)return {err:1,type:'dl'};
-  var t=new Date(a1[0],a1[1],a1[2],a0[0],a0[1],a0[2],a0[3]);
+  var t=new Date(a1[0],a1[1],a1[2],a0[0],a0[1],a0[2],a0[3]|0);
   return {a0,a1,t,err:0,type:'ok'};
 };
 var timediff=(a,b)=>{var td=(a-b)/1e3;return td+" sec. // "+(td/60).toFixed(5)+" minutes";}
