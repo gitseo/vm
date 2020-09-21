@@ -5,9 +5,9 @@ var mk_html=s=>`
 <form id="postform" method="post">
   <p>content of archive.txt:</p>
   <textarea spellcheck=false rows="20" name="data" id="data" onkeypress="if(event.keyCode==10||(event.ctrlKey&&event.keyCode==13))document.getElementById('postform').submit();"></textarea>
-  <p><input type="checkbox" name="timediff" checked="false">timediff</input></p>
-  <p><input type="checkbox" name="no_hr" checked="false">no_hr</input></p>
-  <p><input type="checkbox" name="no_colors" checked="false">no_colors</input></p>
+  <p><input type="checkbox" name="timediff">timediff</input></p>
+  <p><input type="checkbox" name="no_hr">no_hr</input></p>
+  <p><input type="checkbox" name="no_colors">no_colors</input></p>
   <p><input type="checkbox" name="show_stats">show_stats</input></p>
   <p><input type="submit" value="send"></p>
 </form>
@@ -98,7 +98,7 @@ if(!('no_colors' in qp)){
   }
   end();
 }else{
-  out=s;
+  out=escapeHtml(s);
 }
 var update_timestamps=arr=>{
   var t=arr.map(e=>to_timestamp(e[0]));
