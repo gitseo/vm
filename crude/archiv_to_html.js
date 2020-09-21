@@ -24,7 +24,7 @@ if(!('data' in qp)){
 var to_timestamp=s=>{
   var q=s=>s.split(/[.:-]/);
   var a=s.split(" ");
-  if(a.length!=2)return {err:1,type:'fail'};
+  if(a.length<2)return {err:1,type:'fail'};
   if(!(["23:59:99.999","15-11-44"].map(e=>e.length).includes(a[0].length)))return {err:1,type:'t'};
   if(a[1].length!="2020-09-18".length)return {err:1,type:'d'};
   var a0=q(a[0]);var a1=q(a[1]);
@@ -62,7 +62,7 @@ m=mapsort(m);
 var bg=(r,g,b,str)=>'<span style="color:rgb('+r+','+g+','+b+');">'+str+'</span>';
 var w=[];var out="";
 var inv=v=>255-v;
-var rgb=(r,g,b)=>({r,g,b});
+var rgb=(r,g,b)=>({r|0,g|0,b|0});
 var white=rgb(255,255,255);
 var yellow=rgb(255,255,0);
 var green=rgb(0,255,0);
@@ -91,6 +91,16 @@ for(var i=0;i<s.length;i++){
   w.push(escapeHtml(c));
 }
 end();
-return html_utf8('<body style="background-color:black; color:white;"><pre>'+out.split("\n---\n").join("<hr>"));
+var update_timestamps=arr=>{
+  var t=arr.map(e=>to_timestamp(e));
+  for(var i=1;i<arr.length;i++){
+    var bef=t[i-1];
+    var cur=t[i-0];
+    arr[i][0]+=" // "+timediff(cur,bef);
+  }
+}
+var arr=out.split("\n---\n").map(msg=>msg.split("\n"));
+var pre=update_timestamps(arr).join("<hr>");
+return html_utf8('<body style="background-color:black; color:white;"><pre>'+pre+'</pre></body>');
 //return html_utf8("<pre>"+inspect(m));
 //return html_utf8("<pre>"+f(POST.data).map(e=>escapeHtml(e)).join("\n")+"");
