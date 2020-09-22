@@ -40,7 +40,7 @@ var to_timestamp=(s)=>{
 };
 var timediff=(a,b,n)=>{
   var td=(a-b)/1e3;
-  return td.toFixed(3)+" sec. // "+(td/60).toFixed(5)+" minutes. // "+(td/3600).toFixed(7)+' hours. // '+n+' symbols. // '+(n/td).toFixed(2)+' symbols/sec';
+  return td.toFixed(3)+" sec. // "+(td/60).toFixed(5)+" minutes. // "+(td/3600).toFixed(7)+' hours. // '+n+' symbols. // '+(n/td).toFixed(3)+' symbols/sec';
 }
 //
 var bg=(r,g,b,str)=>'<span style="color:rgb('+r+','+g+','+b+');">'+str+'</span>';
