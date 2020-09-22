@@ -25,7 +25,7 @@ if(!('data' in qp)){
   );
 }
 //
-var to_timestamp=s=>{
+var to_timestamp=(s,n)=>{
   if(!s.length)return {err:1,type:'empty'};
   var q=s=>s.split(/[.:-]/);
   var a=s.split(" ");
@@ -38,7 +38,10 @@ var to_timestamp=s=>{
   var t=new Date(a1[0],a1[1],a1[2],a0[0],a0[1],a0[2],a0[3]|0);
   return {a0,a1,t,err:0,type:'ok'};
 };
-var timediff=(a,b)=>{var td=(a-b)/1e3;return td+" sec. // "+(td/60).toFixed(5)+" minutes. // "+(td/3600).toFixed(7)+' hours.';}
+var timediff=(a,b)=>{
+  var td=(a-b)/1e3;
+  return td.toFixed(3)+" sec. // "+(td/60).toFixed(5)+" minutes. // "+(td/3600).toFixed(7)+' hours. // '+n+' symbols. // '+(n/td).toFixed(2)+' symbols/sec';
+}
 /*
 var timediff_main=()=>{
   var s="\n"+POST.data.split("\r").join("");
@@ -94,6 +97,8 @@ var to_rgb=n=>{
 var out="\n";
 var end=()=>{if(!w.length)return;var q=w.join("");w.length=0;var v=to_rgb(m[q]);out+=bg(v.r,v.g,v.b,q);};
 var s=POST.data.split("\r").join("");
+var arr=s.split("\n---\n").map(msg=>msg.split("\n"));
+s=update_timestamps(arr).join("\n---\n");
 if(!('no_colors' in qp)){
   for(var i=0;i<s.length;i++){
     var c=s[i];
@@ -109,10 +114,9 @@ var update_timestamps=arr=>{
   if('timediff' in qp)for(var i=0;i<t.length-1;i++){
     var bef=t[i+0];if(bef.err)continue;
     var cur=t[i+1];
-    arr[i][0]+=" // "+timediff(cur.t,bef.t);//+" // "+json(cur)+" - "+json(bef);
+    arr[i][0]+=" // "+timediff(cur.t,bef.t,arr.slice(1).join("\n").length);//+" // "+json(cur)+" - "+json(bef);
   }
   return arr.map(e=>e.join("\n"));
 }
-var arr=out.split("\n---\n").map(msg=>msg.split("\n"));
-var pre=update_timestamps(arr).join('no_hr' in qp?"\n---\n":"<hr>");
+var pre='no_hr' in qp?out:out.split("\n---\n").join("\n---\n":"<hr>");
 return html_utf8('<body style="background-color:black; color:white;"><pre contenteditable='+('contenteditable' in qp)+'>'+pre+'</pre></body>');
