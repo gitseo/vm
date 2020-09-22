@@ -115,4 +115,4 @@ var update_timestamps=arr=>{
 }
 var arr=out.split("\n---\n").map(msg=>msg.split("\n"));
 var pre=update_timestamps(arr).join('no_hr' in qp?"\n---\n":"<hr>");
-return html_utf8('<body style="background-color:black; color:white;"><pre contenteditable='+('contenteditable' in qp)+')+'>'+pre+'</pre></body>');
+return html_utf8('<body style="background-color:black; color:white;"><pre contenteditable='+('contenteditable' in qp)+'>'+pre+'</pre></body>');
