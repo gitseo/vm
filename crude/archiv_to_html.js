@@ -106,9 +106,9 @@ if(!('no_colors' in qp)){
 }
 var update_timestamps=arr=>{
   var t=arr.map(e=>to_timestamp(e[0]));
-  if('timediff' in qp)for(var i=1;i<t.length;i++){
-    var bef=t[i-1];if(bef.err)continue;
-    var cur=t[i-0];
+  if('timediff' in qp)for(var i=0;i<t.length-1;i++){
+    var bef=t[i+0];if(bef.err)continue;
+    var cur=t[i+1];
     arr[i][0]+=" // "+timediff(cur.t,bef.t);//+" // "+json(cur)+" - "+json(bef);
   }
   return arr.map(e=>e.join("\n"));
