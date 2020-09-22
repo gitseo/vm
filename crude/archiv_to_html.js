@@ -118,5 +118,5 @@ var update_timestamps=arr=>{
   }
   return arr.map(e=>e.join("\n"));
 }
-var pre='no_hr' in qp?out:out.split("\n---\n").join("\n---\n":"<hr>");
+var pre=('no_hr' in qp)?out:out.split("\n---\n").join("<hr>");
 return html_utf8('<body style="background-color:black; color:white;"><pre contenteditable='+('contenteditable' in qp)+'>'+pre+'</pre></body>');
