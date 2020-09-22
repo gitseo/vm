@@ -88,7 +88,7 @@ var mix=(bef,aft,a,b,n)=>{
 }
 var to_rgb=n=>{
   if(n<5)return mix(yellow,white,1,5,n);
-  return mix(white,green,5,255,n);
+  return mix(white,green,5,255,n>255?255:n);
   if(n==1)return yellow;
   if(n>2&&n<=10)return mix(yellow,white,2,10,n);
   if(n>11&&n<=100)return mix(white,green,11,100,n);
