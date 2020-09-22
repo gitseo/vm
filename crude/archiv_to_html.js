@@ -42,36 +42,8 @@ var timediff=(a,b,n)=>{
   var td=(a-b)/1e3;
   return td.toFixed(3)+" sec. // "+(td/60).toFixed(5)+" minutes. // "+(td/3600).toFixed(7)+' hours. // '+n+' symbols. // '+(n/td).toFixed(2)+' symbols/sec';
 }
-/*
-var timediff_main=()=>{
-  var s="\n"+POST.data.split("\r").join("");
-  var arr=s.split("\n---\n");
-  var out=[];
-  for(var i=0;i<arr.length;i++){
-    var e=arr[i];
-    let a=e.split("\n");
-    let t=to_timestamp(a[0]);
-    if(t.err)continue;
-    out.push(t);
-  }
-  //return inspect({s,arr,pd:POST.data,out});
-  var td=timediff(out[1].t,out[0].t);
-  return inspect({td,out});
-}
-if('timediff' in qp)return timediff_main();
-*/
 //
-var parr="\n\r`+-*/\\(){}[]@^%$=,.:;'|&#!?<>\"1234567890_".split("");
-var f=str=>{
-  parr.map(e=>str=str.split(e).join(" "));
-  return str.split(" ").map(e=>e.trim()).filter(e=>e);
-}
-var m={};
-f(POST.data).map(e=>inc(m,escapeHtml(e)));
-m=mapsort(m);
-if('show_stats' in qp)return html_utf8("<pre>"+escapeHtml(inspect(m)));
 var bg=(r,g,b,str)=>'<span style="color:rgb('+r+','+g+','+b+');">'+str+'</span>';
-var w=[];
 var inv=v=>255-v;
 var rgb=(r,g,b)=>({r:r|0,g:g|0,b:b|0});
 var white=rgb(255,255,255);
@@ -87,6 +59,7 @@ var mix=(bef,aft,a,b,n)=>{
   );
 }
 var to_rgb=n=>{
+  if(!n)return white;
   if(n<5)return mix(yellow,white,1,5,n);
   if(n>=255)return green;
   return mix(white,green,5,255,n);
@@ -95,6 +68,7 @@ var to_rgb=n=>{
   if(n>11&&n<=100)return mix(white,green,11,100,n);
   return green;//mix(yellow,white,0,255,n);
 }
+var w=[];var m={};
 var out="";
 var end=()=>{if(!w.length)return;var q=w.join("");w.length=0;var v=to_rgb(m[q]);out+=bg(v.r,v.g,v.b,q);};
 var s="\n"+POST.data.split("\r").join("");
@@ -109,6 +83,15 @@ var update_timestamps=arr=>{
   return arr.map(e=>e.join("\n"));
 }
 s=update_timestamps(arr).join("\n---\n");
+//
+var parr="\n\r`+-*/\\(){}[]@^%$=,.:;'|&#!?<>\"1234567890_".split("");
+var f=str=>{
+  parr.map(e=>str=str.split(e).join(" "));
+  return str.split(" ").map(e=>e.trim()).filter(e=>e);
+}
+f(s).map(e=>inc(m,escapeHtml(e)));
+if('show_stats' in qp)return html_utf8("<pre>"+escapeHtml(inspect(mapsort(m))));
+//
 if(!('no_colors' in qp)){
   for(var i=0;i<s.length;i++){
     var c=s[i];
