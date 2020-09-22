@@ -99,7 +99,7 @@ var end=()=>{if(!w.length)return;var q=w.join("");w.length=0;var v=to_rgb(m[q]);
 var s=POST.data.split("\r").join("");
 var arr=s.split("\n---\n").map(msg=>msg.split("\n"));
 var update_timestamps=arr=>{
-  var t=arr.map(e=>to_timestamp(e[0],arr.slice(1).join("\n").length));
+  var t=arr.map(e=>to_timestamp(e[0],e.slice(1).join("\n").length));
   if('timediff' in qp)for(var i=0;i<t.length-1;i++){
     var bef=t[i+0];if(bef.err)continue;
     var cur=t[i+1];
