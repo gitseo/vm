@@ -9,6 +9,7 @@ var mk_html=s=>`
   <p><input type="checkbox" name="no_hr">no_hr</input></p>
   <p><input type="checkbox" name="no_colors">no_colors</input></p>
   <p><input type="checkbox" name="show_stats">show_stats</input></p>
+  <p><input type="checkbox" name="contenteditable">contenteditable</input></p>
   <p><input type="submit" value="send"></p>
 </form>
 </center></body></html>
@@ -38,6 +39,7 @@ var to_timestamp=s=>{
   return {a0,a1,t,err:0,type:'ok'};
 };
 var timediff=(a,b)=>{var td=(a-b)/1e3;return td+" sec. // "+(td/60).toFixed(5)+" minutes";}
+/*
 var timediff_main=()=>{
   var s="\n"+POST.data.split("\r").join("");
   var arr=s.split("\n---\n");
@@ -54,6 +56,7 @@ var timediff_main=()=>{
   return inspect({td,out});
 }
 if('timediff' in qp)return timediff_main();
+*/
 //
 var parr="\n\r`+-*/\\(){}[]@^%$=,.:;'|&#!?<>\"1234567890_".split("");
 var f=str=>{
@@ -103,7 +106,7 @@ if(!('no_colors' in qp)){
 }
 var update_timestamps=arr=>{
   var t=arr.map(e=>to_timestamp(e[0]));
-  for(var i=1;i<t.length;i++){
+  if('timediff' in qp)for(var i=1;i<t.length;i++){
     var bef=t[i-1];if(bef.err)continue;
     var cur=t[i-0];
     arr[i][0]+=" // "+timediff(cur.t,bef.t);//+" // "+json(cur)+" - "+json(bef);
@@ -112,4 +115,4 @@ var update_timestamps=arr=>{
 }
 var arr=out.split("\n---\n").map(msg=>msg.split("\n"));
 var pre=update_timestamps(arr).join('no_hr' in qp?"\n---\n":"<hr>");
-return html_utf8('<body style="background-color:black; color:white;"><pre>'+pre+'</pre></body>');
+return html_utf8('<body style="background-color:black; color:white;"><pre contenteditable='+('contenteditable' in qp)+')+'>'+pre+'</pre></body>');
