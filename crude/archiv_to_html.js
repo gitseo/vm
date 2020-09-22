@@ -5,7 +5,7 @@ var mk_html=s=>`
 <form id="postform" method="post">
   <p>content of archive.txt:</p>
   <textarea spellcheck=false rows="20" name="data" id="data" onkeypress="if(event.keyCode==10||(event.ctrlKey&&event.keyCode==13))document.getElementById('postform').submit();"></textarea>
-  <p><input type="checkbox" name="timediff">timediff</input></p>
+  <p><input type="checkbox" name="timediff" checked>timediff</input></p>
   <p><input type="checkbox" name="no_hr">no_hr</input></p>
   <p><input type="checkbox" name="no_colors">no_colors</input></p>
   <p><input type="checkbox" name="show_stats">show_stats</input></p>
