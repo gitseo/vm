@@ -88,16 +88,16 @@ var mix=(bef,aft,a,b,n)=>{
 }
 var to_rgb=n=>{
   if(n<5)return mix(yellow,white,1,5,n);
-  if(n>255)return green;
+  if(n>=255)return green;
   return mix(white,green,5,255,n);
   if(n==1)return yellow;
   if(n>2&&n<=10)return mix(yellow,white,2,10,n);
   if(n>11&&n<=100)return mix(white,green,11,100,n);
   return green;//mix(yellow,white,0,255,n);
 }
-var out="\n";
+var out="";
 var end=()=>{if(!w.length)return;var q=w.join("");w.length=0;var v=to_rgb(m[q]);out+=bg(v.r,v.g,v.b,q);};
-var s=POST.data.split("\r").join("");
+var s="\n"+POST.data.split("\r").join("");
 var arr=s.split("\n---\n").map(msg=>msg.split("\n"));
 var update_timestamps=arr=>{
   var t=arr.map(e=>to_timestamp(e[0]));
