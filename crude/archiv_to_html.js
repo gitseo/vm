@@ -93,8 +93,13 @@ f(s).map(e=>inc(m,escapeHtml(e)));
 if('show_stats' in qp)return html_utf8("<pre>"+escapeHtml(inspect(mapsort(m))));
 //
 if(!('no_colors' in qp)){
+  var ts_line=false;
   for(var i=0;i<s.length;i++){
     var c=s[i];
+    if(c=='\n'){
+      if(ts_line){ts_line=false;end();out+=escapeHtml(c)+"</span>";continue;}
+      if(s.substr(i-4,4)==="\n---"){ts_line=true;out+='<span style="background-color:#303030">';}
+    }
     if(parr.includes(c)||c==" "){end();out+=escapeHtml(c);continue;}
     w.push(escapeHtml(c));
   }
