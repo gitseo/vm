@@ -97,7 +97,7 @@ if(!('no_colors' in qp)){
   for(var i=0;i<s.length;i++){
     var c=s[i];
     if(c=='\n'){
-      if(ts_line){ts_line=false;end();out+=escapeHtml(c)+"</span>";continue;}
+      if(ts_line){ts_line=false;end();out+="</span>"+escapeHtml(c);continue;}
       if(s.substr(i-4,4)==="\n---"){ts_line=true;end();out+=escapeHtml(c)+'<span style="background-color:#303030">';continue;}
     }
     if(parr.includes(c)||c==" "){end();out+=escapeHtml(c);continue;}
