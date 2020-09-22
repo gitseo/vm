@@ -88,7 +88,8 @@ var mix=(bef,aft,a,b,n)=>{
 }
 var to_rgb=n=>{
   if(n<5)return mix(yellow,white,1,5,n);
-  return mix(white,green,5,255,n>255?255:n);
+  if(n>255)return green;
+  return mix(white,green,5,255,n);
   if(n==1)return yellow;
   if(n>2&&n<=10)return mix(yellow,white,2,10,n);
   if(n>11&&n<=100)return mix(white,green,11,100,n);
@@ -103,7 +104,7 @@ var update_timestamps=arr=>{
   if('timediff' in qp)for(var i=0;i<t.length-1;i++){
     var bef=t[i+0];if(bef.err)continue;
     var cur=t[i+1];
-    arr[i][0]+=" // "+timediff(cur.t,bef.t,arr.slice(1).join("\n").length);//+" // "+json(cur)+" - "+json(bef);
+    arr[i][0]+=" // "+timediff(cur.t,bef.t,arr[i].slice(1).join("\n").length);//+" // "+json(cur)+" - "+json(bef);
   }
   return arr.map(e=>e.join("\n"));
 }
