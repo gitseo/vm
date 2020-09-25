@@ -617,7 +617,7 @@ http_server.on('clientError',(err,socket)=>{
   g_err_socks_func(err,socket);
 });
 
-var g_mp_upload_cb=(err,fields,files,request,response,txt)=>{txt(inspect({t:getDateTime(),fields:fields,files:files,err:err}));}
+var g_mp_upload_cb=(err,fields,files,request,response,txt,bef)=>{txt(inspect({time:{bef:bef,aft:getDateTime()},fields:fields,files:files,err:err}));}
 var g_links={};
 var gen_link_id=()=>{return rand()+" "+getDateTime();}
 var new_link=()=>{var out={id:gen_link_id()};g_links[out.id]=out;return out;}
@@ -727,12 +727,13 @@ var requestListener=(request,response)=>{
   {
     // upload script: curl -F "field=value" -F "file=@file_name.mp4" http://localhost:8080/upload
     g_logger_func(request);
+    var bef_time=getDateTime();
     var multiparty=require('multiparty');
     var uploadDir="dir" in qp?qp.dir:"./";
     var form=new multiparty.Form({uploadDir:uploadDir});
     var txt=((res)=>{var r=res;return s=>{r.writeHead(200,{"Content-Type":"text/plain"});r.end(s);}})(response);
     form.parse(request,(err,fields,files)=>{
-      g_mp_upload_cb(err,fields,files,request,response,txt);
+      g_mp_upload_cb(err,fields,files,request,response,txt,bef_time);
     });
     return;
   }
