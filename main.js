@@ -220,9 +220,13 @@ var func_to_var_decl=func=>"var "+func+"="+eval("("+func+").toString()")+";\n";
 
 var parse_datetime=s=>{
   var t=s.split(' ');var ymd=t[0].split('.');var hms=t[1].split(':');
-  return new Date(ymd[0],ymd[1],ymd[2],hms[0],hms[1],hms[2]);
+  if(hms[2].includes(".")){
+    let a=hms[2].split(".");
+    return new Date(ymd[0],ymd[1]-1,ymd[2],hms[0],hms[1],a[0],a[1]);
+  }else
+    return new Date(ymd[0],ymd[1]-1,ymd[2],hms[0],hms[1],hms[2]);
 }
-//parse_datetime("20.03.01 13:08:20");
+//getDateTime(parse_datetime("2020.10.06 12:32:45.495")*1);
 
 var parse_wmdatetime=s=>{
   var t=s.split(' ');var ymd=t[0].split('.').reverse();var hms=t[1].split(':');
