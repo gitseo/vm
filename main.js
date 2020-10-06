@@ -218,8 +218,10 @@ var toHHHMMSS=s=>[s/3600,s/60,s].map(x=>x|0).map((x,i)=>i?x%60:x).map(v=>v<10?"0
 
 var func_to_var_decl=func=>"var "+func+"="+eval("("+func+").toString()")+";\n";
 
-var parse_datetime=s=>{
-  var t=s.split(' ');var ymd=t[0].split('.');var hms=t[1].split(':');
+var parse_datetime2=s=>{
+  var t=s.split(' ');
+  if(t[0].includes(":")&&t.length==2){t.reverse();}
+  var ymd=t[0].split('.');var hms=t[1].split(':');
   if(hms[2].includes(".")){
     let a=hms[2].split(".");
     return new Date(ymd[0],ymd[1]-1,ymd[2],hms[0],hms[1],a[0],a[1]);
