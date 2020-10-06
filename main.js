@@ -622,7 +622,11 @@ http_server.on('clientError',(err,socket)=>{
   g_err_socks_func(err,socket);
 });
 
-var g_mp_upload_cb=(err,fields,files,request,response,txt,bef)=>{txt(inspect({time:{bef:bef,aft:getDateTime()},fields:fields,files:files,err:err}));}
+var g_mp_upload_cb=(err,fields,files,request,response,txt,bef)=>{
+  var aft=getDateTime();
+  var diff=(parse_datetime()*1-parse_datetime(bef)*1);
+  txt(inspect({time:{bef,aft,diff},fields:fields,files:files,err:err}));
+}
 var g_links={};
 var gen_link_id=()=>{return rand()+" "+getDateTime();}
 var new_link=()=>{var out={id:gen_link_id()};g_links[out.id]=out;return out;}
