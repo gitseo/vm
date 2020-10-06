@@ -624,7 +624,7 @@ http_server.on('clientError',(err,socket)=>{
 
 var g_mp_upload_cb=(err,fields,files,request,response,txt,bef)=>{
   var aft=getDateTime();
-  var diff=(parse_datetime()*1-parse_datetime(bef)*1);
+  var diff=(parse_datetime(aft)*1-parse_datetime(bef)*1);
   txt(inspect({time:{bef,aft,diff},fields:fields,files:files,err:err}));
 }
 var g_links={};
