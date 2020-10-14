@@ -74,7 +74,20 @@ var out="";
 var end=()=>{if(!w.length)return;var q=w.join("");w.length=0;var v=to_rgb(m[q]);out+=bg(v.r,v.g,v.b,q);};
 var s="\n"+POST.data.split("\r").join("");
 var arr=s.split("\n---\n").map(msg=>msg.split("\n"));
-var fix_ts=s=>getDateTime(parse_datetime(s));
+var getDateTime_hmsxYMD=t=>{
+  var now     = typeof t==='number'?new Date(t):new Date();
+  var year    = now.getFullYear();
+  var f=v=>(v.toString().length==1?'0':'')+v;
+  var month   = f(now.getMonth()+1); 
+  var day     = f(now.getDate());
+  var hour    = f(now.getHours());
+  var minute  = f(now.getMinutes());
+  var second  = f(now.getSeconds());
+  var ms=now.getMilliseconds()+"";var ttt=[0,"00","0",""];ms=ttt[ms.length]+ms;
+  var dateTime = hour+':'+minute+':'+second+'.'+ms+' '+year+'.'+month+'.'+day;
+  return dateTime;
+}
+var fix_ts=s=>getDateTime_hmsxYMD(parse_datetime(s)*1);
 var update_timestamps=arr=>{
   var t=arr.map(e=>to_timestamp(e[0]));
   if('timediff' in qp)for(var i=0;i<t.length-1;i++){
