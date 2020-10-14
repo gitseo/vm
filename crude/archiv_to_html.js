@@ -30,6 +30,7 @@ var to_timestamp=(s)=>{
   var q=s=>s.split(/[.:-]/);
   var a=s.split(" ");
   if(a.length<2)return {err:1,type:'fail'};
+  if(a[0].length=="2020.10.14".length){let tmp=a[0];a[0]=a[1];a[1]=tmp;}
   if(!(["23:59:59.999","15-11-44"].map(e=>e.length).includes(a[0].length)))return {err:1,type:'t'};
   if(a[1].length!="2020-09-18".length)return {err:1,type:'d'};
   var a0=q(a[0]);var a1=q(a[1]);
@@ -73,11 +74,13 @@ var out="";
 var end=()=>{if(!w.length)return;var q=w.join("");w.length=0;var v=to_rgb(m[q]);out+=bg(v.r,v.g,v.b,q);};
 var s="\n"+POST.data.split("\r").join("");
 var arr=s.split("\n---\n").map(msg=>msg.split("\n"));
+var fix_ts=s=>getDateTime(parse_datetime(s));
 var update_timestamps=arr=>{
   var t=arr.map(e=>to_timestamp(e[0]));
   if('timediff' in qp)for(var i=0;i<t.length-1;i++){
     var bef=t[i+0];if(bef.err)continue;
     var cur=t[i+1];
+    arr[i][0]=fix_ts(arr[i][0]);
     arr[i][0]+=" // "+timediff(cur.t,bef.t,arr[i].slice(1).join("\n").length);//+" // "+json(cur)+" - "+json(bef);
   }
   return arr.map(e=>e.join("\n"));
