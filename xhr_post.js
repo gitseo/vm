@@ -40,8 +40,9 @@ var getDateTime=t=>{
   var day     = f(now.getDate());
   var hour    = f(now.getHours());
   var minute  = f(now.getMinutes());
-  var second  = f(now.getSeconds()); 
-  var dateTime = year+'.'+month+'.'+day+' '+hour+':'+minute+':'+second;   
+  var second  = f(now.getSeconds());
+  var ms=now.getMilliseconds()+"";var ttt=[0,"00","0",""];ms=ttt[ms.length]+ms;
+  var dateTime = year+'.'+month+'.'+day+' '+hour+':'+minute+':'+second+'.'+ms;
   return dateTime;
 }
 
