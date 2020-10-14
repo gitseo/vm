@@ -90,7 +90,7 @@ var getDateTime_hmsxYMD=t=>{
 var parse_ts=s=>{
   var t=s.split(" ");
   if(t.length<=2)return [parse_datetime(s)*1,""];
-  return [parse_datetime(t.slice(0,2).join(" "))*1,t.slice(2).join(" ")];
+  return [parse_datetime(t.slice(0,2).join(" "))*1," "+t.slice(2).join(" ")];
 }
 var fix_ts=s=>{pt=parse_ts(s);return getDateTime_hmsxYMD(pt[0])+pt[1];}
 var update_timestamps=arr=>{
