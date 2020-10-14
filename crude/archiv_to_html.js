@@ -87,13 +87,18 @@ var getDateTime_hmsxYMD=t=>{
   var dateTime = hour+':'+minute+':'+second+'.'+ms+' '+year+'.'+month+'.'+day;
   return dateTime;
 }
-var fix_ts=s=>getDateTime_hmsxYMD(parse_datetime(s)*1);
+var parse_ts=s=>{
+  var t=s.split(" ");
+  if(t.length<=2)return [parse_datetime(s)*1,""];
+  return [parse_datetime(t.slice(0,2).join(" "))*1,t.slice(2).join(" ")];
+}
+var fix_ts=s=>{pt=parse_ts(s);return getDateTime_hmsxYMD(pt[0])+pt[1];}
 var update_timestamps=arr=>{
   var t=arr.map(e=>to_timestamp(e[0]));
   if('timediff' in qp)for(var i=0;i<t.length-1;i++){
     var bef=t[i+0];if(bef.err)continue;
     var cur=t[i+1];
-    arr[i][0]=fix_ts(arr[i][0]);
+    try{arr[i][0]=fix_ts(arr[i][0]);}catch(e){html_utf8("<pre>"+inspect(arr[i]));}
     arr[i][0]+=" // "+timediff(cur.t,bef.t,arr[i].slice(1).join("\n").length);//+" // "+json(cur)+" - "+json(bef);
   }
   return arr.map(e=>e.join("\n"));
