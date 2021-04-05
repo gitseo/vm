@@ -626,7 +626,9 @@ http_server.on('clientError',(err,socket)=>{
 var g_mp_upload_cb=(err,fields,files,request,response,txt,bef)=>{
   var aft=getDateTime();
   var diff=(parse_datetime(aft)*1-parse_datetime(bef)*1);
-  txt(inspect({time:{bef,aft,diff},fields:fields,files:files,err:err}));
+  var size='upload' in files?qapsum(files.upload,e=>e.size):0;
+  var spd=(!diff?0:size/diff)+" bytes/ms";
+  txt(inspect({time:{bef,aft,diff},size,spd,fields:fields,files:files,err:err}));
 }
 var g_links={};
 var gen_link_id=()=>{return rand()+" "+getDateTime();}
