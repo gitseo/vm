@@ -7,8 +7,9 @@ set_interval(()=>{
   on_start_sync();
 },60*1000);*/
 
-setTimeout(()=>start_auto_backup(),30*1000);
 var nope=()=>{};
+setTimeout(()=>start_auto_backup(),30*1000);
+setTimeout(()=>{xhr_get(with_protocol(g_conf_info.last_request_host)+"/fetch?git",nope,nope);},125*1000);
 set_interval(()=>get_hosts_by_type('backup').map(
   e=>xhr_get('http://'+e+'/vm/ping?from='+os.hostname(),nope,nope)
 ),60*1000);
