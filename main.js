@@ -199,7 +199,10 @@ var pcsv2table_v2=(pcsv,cb)=>{
   pcsv.get=(y,key)=>pcsv.arr[y][pcsv.head.indexOf(key)];
   return with_style_for_center_pre_div_table(pcsv2table_impl_v2(pcsv,cb));
 }
-
+var csv2table_v2=(str,sep,cb)=>{
+  var pcsv=parse_csv_with_head(str,sep);
+  return pcsv2table_v2(pcsv,cb);
+}
 var getDateTime=t=>{
   var now     = typeof t==='number'?new Date(t):new Date();
   var year    = now.getFullYear();
