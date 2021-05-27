@@ -774,7 +774,7 @@ var requestListener=(request,response)=>{
         s=s.split("<").join("&lt;").split(">").join("&gt;");
         (
           'bool,ifdef,endif,int,void,float,real,double,string,char,typedef,template,if,else,'+
-          'for,class,struct,inline,using,define,public,return,include,undef,auto,const,enum'
+          'for,class,struct,inline,using,define,public,return,include,undef,auto,const,enum,friend,operator,static'
         ).split(',').map(e=>s=s.split(e).join("<font color='blue'><b>"+e+"</b></font>"));
         return html("<pre>"+s);
       };
